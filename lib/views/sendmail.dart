@@ -70,7 +70,7 @@ class _SendmailState extends State<Sendmail> {
           Fluttertoast.showToast(msg: _message);
 
           }else{
-
+            Text("Please fill the box!");
           }
           
         },
