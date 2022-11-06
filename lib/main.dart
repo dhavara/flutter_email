@@ -1,28 +1,24 @@
 import 'dart:io';
 import 'dart:async';
-// import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email/views/congrats.dart';
 import 'package:flutter_email/views/sendmail.dart';
-// import 'package:flutter_email/services/services.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:email_validator/email_validator.dart';
 import 'package:uni_links/uni_links.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyEmail());
+  runApp(const MyEmail());
 }
+
 class MyEmail extends StatefulWidget {
-  MyEmail({super.key});
+  const MyEmail({super.key});
 
   @override
   State<MyEmail> createState() => _MyEmailState();
 }
-  
 class _MyEmailState extends State<MyEmail>{
   @override
   void initState() {
@@ -30,13 +26,11 @@ class _MyEmailState extends State<MyEmail>{
     _handleIncomingLinks();
     _handleInitialUri();
 }
-  
 
 Uri? _initialUri;
 Uri? _latestUri;
 Object? _err;
 StreamSubscription? _sub;
-final _scaffoldKey = GlobalKey();
 bool _initialUriIsHandled = false;
 
   void _handleIncomingLinks(){
@@ -71,7 +65,7 @@ bool _initialUriIsHandled = false;
           print('no initial uri');
         } else {
           print('got initial uri: $uri');
-          Navigator.pushAndRemoveUntil<dynamic>(context, MaterialPageRoute<dynamic>(builder: (context) =>Congrats()),
+          Navigator.pushAndRemoveUntil<dynamic>(context, MaterialPageRoute<dynamic>(builder: (context) =>const Congrats()),
           (route) => false);
         }
         setState(() => _initialUri = uri);
@@ -87,7 +81,7 @@ bool _initialUriIsHandled = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Sendmail(),
+      home: const Sendmail(),
       routes: {
         Congrats.routeName: (context) => const Congrats(),
       },

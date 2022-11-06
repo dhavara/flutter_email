@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Congrats extends StatefulWidget {
   const Congrats({super.key});
@@ -15,10 +13,10 @@ class _CongratsState extends State<Congrats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CONGRATULATIONS"),
+        title: const Text("CONGRATULATIONS"),
       ),
       body: Container(
-        padding: EdgeInsets.all(128),
+        padding: const EdgeInsets.all(128),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
