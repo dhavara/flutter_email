@@ -16,8 +16,6 @@ class _SendmailState extends State<Sendmail> {
   @override
   void initState() {
     super.initState();
-    // _handleIncomingLinks();
-    // _handleInitialUri();
   }
 
   final _loginKey = GlobalKey<FormState>();
@@ -27,7 +25,6 @@ class _SendmailState extends State<Sendmail> {
   @override
   void dispose(){
     ctrlEmail.dispose();
-    // _sub?.cancel();
     super.dispose();
   }
 
