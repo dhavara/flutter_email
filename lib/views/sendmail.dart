@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_email/services/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:uni_links/uni_links.dart';
 
 class Sendmail extends StatefulWidget {
   const Sendmail({Key? key}) : super(key: key);
@@ -16,6 +20,8 @@ class _SendmailState extends State<Sendmail> {
   @override
   void initState() {
     super.initState();
+    // _handleIncomingLinks();
+    // _handleInitialUri();
   }
 
   final _loginKey = GlobalKey<FormState>();
@@ -25,8 +31,11 @@ class _SendmailState extends State<Sendmail> {
   @override
   void dispose(){
     ctrlEmail.dispose();
+    // _sub?.cancel();
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +73,7 @@ class _SendmailState extends State<Sendmail> {
           if(_loginKey.currentState!.validate()){
             await SendMailService.sendEmail(ctrlEmail.text.toString()).then((value){
             var result = json.decode(value.body);
+            print(result);
             _message = result['message'].toString();
           }
           );
