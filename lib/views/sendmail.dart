@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_email/services/services.dart';
+import 'package:flutter_email/views/congrats.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:uni_links/uni_links.dart';
 
 class Sendmail extends StatefulWidget {
   const Sendmail({Key? key}) : super(key: key);
@@ -16,7 +21,9 @@ class _SendmailState extends State<Sendmail> {
   @override
   void initState() {
     super.initState();
-  }
+    _handleIncomingLinks();
+    _handleInitialUri();
+}
 
   final _loginKey = GlobalKey<FormState>();
   final ctrlEmail = TextEditingController();
@@ -25,12 +32,68 @@ class _SendmailState extends State<Sendmail> {
   @override
   void dispose(){
     ctrlEmail.dispose();
+    
     super.dispose();
+  }
+
+  Uri? _initialUri;
+Uri? _latestUri;
+Object? _err;
+StreamSubscription? _sub;
+bool _initialUriIsHandled = false;
+final _scaffoldkey = GlobalKey();
+
+  void _handleIncomingLinks(){
+    if (!kIsWeb) {
+      _sub = uriLinkStream.listen((Uri? uri) {
+        print('got uri: $uri');
+        setState(() {
+          _latestUri = uri;
+          _err = null;
+        });
+      }, 
+      onError: (Object err) {
+        print('got err: $err');
+        setState(() {
+          _latestUri = null;
+          if (err is FormatException) {
+            _err = err;
+          } else {
+            _err = null;
+          }
+        });
+      });
+    }
+  }
+
+  Future<void> _handleInitialUri() async {
+    if (!_initialUriIsHandled) {
+      _initialUriIsHandled = true;
+      try {
+        final uri = await getInitialUri();
+        if (uri == null) {
+          print('no initial uri');
+        } else {
+          print('got initial uri: $uri');
+          final context = _scaffoldkey.currentContext;
+          if (context != null){
+          Navigator.pushReplacement(context, MaterialPageRoute<dynamic>(builder: (context) =>const Congrats()));
+          }
+        }
+        setState(() => _initialUri = uri);
+      } on PlatformException {
+        print('failed to get initial uri');
+      } on FormatException catch (err) {
+        print('malformed initial uri' + err.toString());
+        setState(() => _err = err);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: AppBar(
         title: const Text("Send Email")
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Congrats extends StatefulWidget {
   const Congrats({super.key});
-  static const String routeName = "/Congrats";
+  // static const String routeName = "/Congrats";
 
   @override
   State<Congrats> createState() => _CongratsState();

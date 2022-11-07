@@ -31,7 +31,7 @@
               <!-- Accepts URIs that begin with "http://example.com/afl" -->
               <data android:scheme="http"
                     android:host="dhava.stellaris.site"
-                    android:pathPrefix="/api/Mahasiswa" />
+                    android:pathPrefix="/asset-link" />
               <!-- note that the leading "/" is required for pathPrefix -->
             </intent-filter>
         </activity>
